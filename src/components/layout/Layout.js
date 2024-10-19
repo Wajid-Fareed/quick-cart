@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Container from "./Container";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { ImCancelCircle } from "react-icons/im";
 
+export const CartContext = createContext(null);
+
 const Layout = () => {
-  const [ShowMenu, Menu] = useState(false);
-  const handleMenu = () => Menu(!ShowMenu);
+  const [menu, SetMenu] = useState(false);
+  const [cart, setCart] = useState([]);
+  const handleMenu = () => SetMenu(!menu);
+  const cartCounters = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
   return (
     <>
       <header className="bg-black">
@@ -27,9 +33,11 @@ const Layout = () => {
               </li>
               <li className="relative">
                 <Link to="/cart">cart</Link>
-                <span className="text-white bg-red-500 w-6 h-5 rounded-3xl flex justify-center items-center text-xs font-light absolute -top-2 -right-2">
-                  22
-                </span>
+                {cart.length > 0 && (
+                  <span className="text-white bg-red-500 w-6 h-5 rounded-3xl flex justify-center items-center text-xs font-light absolute -top-2 -right-2">
+                    {cartCounters()}
+                  </span>
+                )}
               </li>
               <li>
                 <Link to="/profile">profile</Link>
@@ -51,7 +59,7 @@ const Layout = () => {
 
               <div
                 className={`fixed top-0 right-0 w-64 bg-white shadow-md transition-all duration-300 text-black text-xl font-semibold capitalize ${
-                  ShowMenu ? "block" : "hidden"
+                  menu ? "block" : "hidden"
                 }`}
               >
                 <button
@@ -80,7 +88,9 @@ const Layout = () => {
         </Container>
       </header>
 
-      <Outlet />
+      <CartContext.Provider value={{ cart , setCart }}>
+        <Outlet />
+      </CartContext.Provider>
     </>
   );
 };
