@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Container from "./Container";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
+import { ImCancelCircle } from "react-icons/im";
 
 const Layout = () => {
   const [ShowMenu, Menu] = useState(false);
@@ -34,7 +35,13 @@ const Layout = () => {
                 <Link to="/profile">profile</Link>
               </li>
             </ul>
-            <div className="md:hidden">
+            <div className="md:hidden flex gap-5 items-center">
+              <div className="relative text-xl font-semibold">
+                <Link to="/cart">Cart</Link>
+                <span className="text-white bg-red-500 w-6 h-5 rounded-3xl flex justify-center items-center text-xs font-light absolute -top-2 -right-2">
+                  22
+                </span>
+              </div>
               <button
                 className="block text-white font-bold focus:outline-none"
                 onClick={handleMenu}
@@ -43,27 +50,27 @@ const Layout = () => {
               </button>
 
               <div
-                className={`fixed top-0 right-0 w-64 bg-white shadow-md transition-all duration-300 ${
+                className={`fixed top-0 right-0 w-64 bg-white shadow-md transition-all duration-300 text-black text-xl font-semibold capitalize ${
                   ShowMenu ? "block" : "hidden"
                 }`}
               >
+                <button
+                  className="block text-black font-bold focus:outline-none absolute top-2 right-2"
+                  onClick={handleMenu}
+                >
+                  <ImCancelCircle size={25} />
+                </button>
                 <ul className="px-4 py-6 text-sm">
-                  <li>
+                  <li className="py-1">
                     <Link to="/">Home</Link>
                   </li>
-                  <li>
+                  <li className="py-1">
                     <Link to="/about-us">About</Link>
                   </li>
-                  <li>
+                  <li className="py-1">
                     <Link to="/wishlist">Wishlist</Link>
                   </li>
-                  <li className="relative">
-                    <Link to="/cart">cart</Link>
-                    <span className="text-white bg-red-500 w-6 h-5 rounded-3xl flex justify-center items-center text-xs font-light absolute -top-2 -right-2">
-                      22
-                    </span>
-                  </li>
-                  <li>
+                  <li className="py-1">
                     <Link to="/profile">profile</Link>
                   </li>
                 </ul>
