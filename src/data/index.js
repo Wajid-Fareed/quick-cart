@@ -17,3 +17,5 @@ export const productData = [
     { id: 7, title: 'Product 7', price: 300 , description: 'Product description' , image: productImg7},
     { id: 8, title: 'Product 8', price: 300 , description: 'Product description' , image: productImg8},
 ]
+
+export const couponData = [{ id: 1, discountPercent: 50, key: "abcd" }];

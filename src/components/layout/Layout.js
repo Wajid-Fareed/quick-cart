@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Container from "./Container";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
@@ -10,9 +10,39 @@ const Layout = () => {
   const [menu, SetMenu] = useState(false);
   const [cart, setCart] = useState([]);
   const handleMenu = () => SetMenu(!menu);
+  const [totalCartPrice, setCartTotalPrice] = useState(0);
+  const [totalTex, setTotalTex] = useState(0);
+  const [subtotalPrice, setSubTotalPrice] = useState(0);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [checkoutFormData, setCheckoutFormData] = useState([]);
+
   const cartCounters = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
+  useEffect(() => {
+    setCartTotalPrice(
+      cart.reduce((total, item) => total + item.price * item.quantity, 0)
+    );
+    setCouponDiscount(0);
+  }, [cart]);
+  useEffect(() => {
+    setTotalTex(totalCartPrice >= 200 ? 10 : 0);
+  }, [totalCartPrice]);
+  useEffect(() => {
+    setSubTotalPrice(totalCartPrice + totalTex);
+  }, [totalCartPrice , totalTex]);
+  useEffect(() => {
+    if (subtotalPrice >= 500) {
+      setDeliveryFee(0);
+    } else {
+      subtotalPrice === 0 ? setDeliveryFee(0) : setDeliveryFee(50);
+    }
+  }, [subtotalPrice]);
+  useEffect(() => {
+    setTotalPrice(subtotalPrice + deliveryFee);
+  }, [subtotalPrice ,deliveryFee]);
   return (
     <>
       <header className="bg-black">
@@ -88,7 +118,26 @@ const Layout = () => {
         </Container>
       </header>
 
-      <CartContext.Provider value={{ cart , setCart }}>
+      <CartContext.Provider
+        value={{
+          cart,
+          setCart,
+          totalCartPrice,
+          setCartTotalPrice,
+          totalTex,
+          setTotalTex,
+          subtotalPrice,
+          setSubTotalPrice,
+          couponDiscount,
+          setCouponDiscount,
+          deliveryFee,
+          setDeliveryFee,
+          totalPrice,
+          setTotalPrice,
+          checkoutFormData,
+          setCheckoutFormData,
+        }}
+      >
         <Outlet />
       </CartContext.Provider>
     </>
