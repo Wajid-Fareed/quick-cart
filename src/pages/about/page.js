@@ -1,7 +1,9 @@
+import Container from "../../components/layout/Container";
+
 const About = () => {
   return (
     <>
-      <div>About Us Page</div>
+      <Container className="h-[85vh] mt-[2px]">About Us Page</Container>
     </>
   );
 };

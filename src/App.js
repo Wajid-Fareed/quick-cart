@@ -4,7 +4,6 @@ import About from "./pages/about/page";
 import Home from "./pages/home/page";
 import Wishlist from "./pages/wishlist/page";
 import Cart from "./pages/cart/page";
-import Profile from "./pages/profile/page";
 import CheckoutPage from "./pages/checkout/page";
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
             <Route path="about-us" element={<About />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="cart" element={<Cart />} />
-            <Route path="profile" element={<Profile />} />
             <Route path="checkout" element={<CheckoutPage />} />
           </Route>
       </Routes>

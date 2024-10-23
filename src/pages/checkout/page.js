@@ -11,12 +11,11 @@ const CheckoutPage = () => {
     couponDiscount,
     deliveryFee,
     totalPrice,
-    checkoutFormData,
-    setCheckoutFormData,
   } = useContext(CartContext);
 
   const [country, setCountry] = useState("");
   const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
   const options = useMemo(() => countryList().getData(), []);
 
   const changeHandler = (value) => {
@@ -28,12 +27,37 @@ const CheckoutPage = () => {
     const value = e.target.value;
     setFormData((values) => ({ ...values, [name]: value }));
   };
-  const handleCheckoutFromData = () => {
-    // e.preventDefault();
-    setCheckoutFormData(formData);
-    console.log(checkoutFormData);
+  const validate = () => {
+    let formErrors = {};
+    if (!formData.first_name || /\d/.test(formData.first_name)) {
+      formErrors.first_name = "Please enter a valid first name without numbers.";
+    }
+    if (!formData.last_name || /\d/.test(formData.last_name)) {
+      formErrors.last_name = "Please enter a valid last name without numbers.";
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      formErrors.email = "Please enter a valid email address.";
+    }
+    if (!formData.phone_number || !/^\d+$/.test(formData.phone_number)) {
+      formErrors.phone_number = "Please enter a valid phone number with digits only.";
+    }
+    if (!formData.address) {
+      formErrors.address = "Please enter your address.";
+    }
+    if (!formData.country) {
+      formErrors.country = "Please select your country.";
+    }
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
   };
-  // console.log(formData);
+  const handleCheckoutFromData = () => {
+    if (validate()) {
+      const values = {...formData, cart, totalPrice}
+      console.log("Form Data:", values);
+    } else {
+      console.log("Validation failed");
+    }
+  };
   return (
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-5">
@@ -57,6 +81,9 @@ const CheckoutPage = () => {
                   value={formData.first_name || ""}
                   onChange={handleChange}
                 />
+                {errors.first_name && (
+                  <span className="text-red-500 text-sm">{errors.first_name}</span>
+                )}
               </div>
               <div className="flex flex-col gap-3">
                 <label
@@ -73,6 +100,9 @@ const CheckoutPage = () => {
                   value={formData.last_name || ""}
                   onChange={handleChange}
                 />
+                {errors.last_name && (
+                  <span className="text-red-500 text-sm">{errors.last_name}</span>
+                )}
               </div>
               <div className="flex flex-col gap-3">
                 <label className="block text-lg font-medium" htmlFor="email">
@@ -86,6 +116,9 @@ const CheckoutPage = () => {
                   value={formData.email || ""}
                   onChange={handleChange}
                 />
+                {errors.email && (
+                  <span className="text-red-500 text-sm">{errors.email}</span>
+                )}
               </div>
               <div className="flex flex-col gap-3">
                 <label
@@ -102,6 +135,9 @@ const CheckoutPage = () => {
                   value={formData.phone_number || ""}
                   onChange={handleChange}
                 />
+                {errors.phone_number && (
+                  <span className="text-red-500 text-sm">{errors.phone_number}</span>
+                )}
               </div>
               <div className="flex flex-col gap-3">
                 <label className="block text-lg font-medium" htmlFor="address">
@@ -115,17 +151,24 @@ const CheckoutPage = () => {
                   value={formData.address || ""}
                   onChange={handleChange}
                 />
+                {errors.address && (
+                  <span className="text-red-500 text-sm">{errors.address}</span>
+                )}
               </div>
               <div className="flex flex-col gap-3">
-                <label className="block text-lg font-medium" htmlFor="address">
+                <label className="block text-lg font-medium" htmlFor="country">
                   country:
                 </label>
                 <Select
+                  id="country"
                   options={options}
                   value={country}
                   onChange={changeHandler}
                   className="border-gray-300 text-lg"
                 />
+                {errors.country && (
+                  <span className="text-red-500 text-sm">{errors.country}</span>
+                )}
               </div>
             </div>
             <div className="flex flex-col gap-3 mt-3">
@@ -149,7 +192,7 @@ const CheckoutPage = () => {
           <div className="px-5 py-2">
             <h2 className="text-xl font-medium">Review Order</h2>
             <p>Please review your order details before confirming.</p>
-            <div className="flex flex-col gap-4 mt-5 bg-white p-5 rounded">
+            <div className="flex flex-col gap-4 mt-5 bg-white p-5 rounded overflow-y-auto max-h-[245px]">
               {cart.map((item) => (
                 <div
                   key={item.id}
