@@ -65,9 +65,9 @@ const Cart = () => {
   };
   return (
     <>
-      <Container className="py-4">
+      <Container className="py-7">
         <h2 className="text-4xl font-bold text-center">Shopping Cart</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-6 h-[75vh]">
           <div>
             <div className="overflow-auto max-h-[60vh]">
               <table className="w-full">
@@ -106,7 +106,7 @@ const Cart = () => {
                           <p>{item.price * item.quantity}</p>
                         </div>
                       </td>
-                      <td className="p-3 text-end">
+                      <td className="p-3 text-end w-fit">
                         <div>
                           <button
                             onClick={() => handleDeleteFromCart(item.id)}
@@ -157,14 +157,14 @@ const Cart = () => {
               <div className="text-center">
                 <h2 className="text-xl font-bold">No items in cart</h2>
                 <div className="text-end">
-                  <button className="bg-black text-white font-bold focus:outline-none h-14 px-8">
+                  <Link to="/" className="bg-black text-white font-bold focus:outline-none inline-flex justify-center items-center h-16 w-40 rounded-sm">
                     Start Shopping
-                  </button>
+                  </Link>
                 </div>
               </div>
             )}
           </div>
-          <div className="p-4 border text-center">
+          <div className="p-4 border text-center h-fit">
             <h2 className="text-2xl font-bold">Total Cart</h2>
             <div className="flex flex-col gap-6 mt-5">
               <div className="flex items-center justify-between">

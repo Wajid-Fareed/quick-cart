@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa";
 import { CartContext } from "../layout/Layout";
 
 const Card = ({ item }) => {
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, setCart , wishlist, setWishlist } = useContext(CartContext);
 
   const handleAddToCart = () => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id);
@@ -20,12 +20,20 @@ const Card = ({ item }) => {
       setCart([...cart, { ...item, quantity: 1 }]);
     }
   };
+
+  const hanldeAddToWishlist = () => {
+    const existingwisklist = wishlist.find((wishlistItem) => wishlistItem.id === item.id);
+    const existingcart = cart.find((wishlistItem) => wishlistItem.id === item.id);
+    if(!existingwisklist && !existingcart ) {
+      setWishlist([...wishlist , item]);
+    }
+  }
   return (
     <div className="px-2 relative group">
-      <span className="absolute top-3 right-6 opacity-0 transform transition-opacity group-hover:opacity-100 cursor-pointer">
+      <span className="absolute top-3 right-6 opacity-0 transform transition-opacity group-hover:opacity-100 cursor-pointer" onClick={hanldeAddToWishlist}>
         <FaHeart size={25} className="text-black" />
       </span>
-      <img src={item.image} alt={item.title} className="w-full" />
+      <img src={item.image} alt={item.title} className="w-full max-h-[360px] object-cover" />
       <div>
         <div className="flex gap-3 items-center justify-between border-b px-2 py-1">
           <h2>{item.title}</h2>
