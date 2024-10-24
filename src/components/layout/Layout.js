@@ -45,6 +45,11 @@ const Layout = () => {
   useEffect(() => {
     setTotalPrice(subtotalPrice + deliveryFee);
   }, [subtotalPrice, deliveryFee]);
+  useEffect(() => {
+    const localWishlistData = localStorage.getItem("Wishlist");
+    const initialWishlist = localWishlistData ? JSON.parse(localWishlistData) : [];
+    setWishlist(initialWishlist);
+  },[]);
   return (
     <>
       <header className="bg-black">
@@ -66,7 +71,7 @@ const Layout = () => {
                   <span className="text-white bg-red-500 w-6 h-5 rounded-3xl flex justify-center items-center text-xs font-light absolute -top-2 -right-2">
                     {wishlist.length}
                   </span>
-                )}
+                 )}
               </li>
               <li className="relative">
                 <Link to="/cart">cart</Link>

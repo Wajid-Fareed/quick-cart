@@ -3,15 +3,19 @@ import Container from "../../components/layout/Container";
 import countryList from "react-select-country-list";
 import Select from "react-select";
 import { CartContext } from "../../components/layout/Layout";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const {
     cart,
+    setCart,
     subtotalPrice,
     couponDiscount,
     deliveryFee,
     totalPrice,
   } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const [country, setCountry] = useState("");
   const [formData, setFormData] = useState({});
@@ -52,10 +56,14 @@ const CheckoutPage = () => {
   };
   const handleCheckoutFromData = () => {
     if (validate()) {
-      const values = {...formData, cart, totalPrice}
+      const values = { ...formData, cart, totalPrice }
+      navigate("/");
+      toast.success("Checkout Successfully!", { autoClose: 1000 });
+      setCart([]);
       console.log("Form Data:", values);
     } else {
       console.log("Validation failed");
+      toast.error("Checkout Failed!", { autoClose: 1000 });
     }
   };
   return (
@@ -192,27 +200,29 @@ const CheckoutPage = () => {
           <div className="px-5 py-2">
             <h2 className="text-xl font-medium">Review Order</h2>
             <p>Please review your order details before confirming.</p>
-            <div className="flex flex-col gap-4 mt-5 bg-white p-5 rounded overflow-y-auto max-h-[245px]">
-              {cart.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 justify-between items-center"
-                >
-                  <div className="flex gap-4 items-center">
-                    <img src={item.image} alt={item.title} className="w-24" />
-                    <h3 className="text-lg font-medium">{item.title}</h3>
-                  </div>
-                  <p className="text-lg font-medium">
-                    ${item.price} * {item.quantity}
-                  </p>
-                  <div className="flex items-center gap-6">
+            {cart && cart.length > 0 && (
+              <div className="flex flex-col gap-4 mt-5 bg-white p-5 rounded overflow-y-auto max-h-[245px]">
+                {cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex gap-4 justify-between items-center"
+                  >
+                    <div className="flex gap-4 items-center">
+                      <img src={item.image} alt={item.title} className="w-24" />
+                      <h3 className="text-lg font-medium">{item.title}</h3>
+                    </div>
                     <p className="text-lg font-medium">
-                      ${item.price * item.quantity}
+                      ${item.price} * {item.quantity}
                     </p>
+                    <div className="flex items-center gap-6">
+                      <p className="text-lg font-medium">
+                        ${item.price * item.quantity}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             <div className="px-4 py-5 flex flex-col items-center">
               <div className="flex gap-4 justify-between items-center mt-5 w-full border-b">
                 <h3 className="text-lg font-medium">Subtotal</h3>
