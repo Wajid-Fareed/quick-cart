@@ -1,14 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../../components/layout/Layout';
 import Container from '../../components/layout/Container';
 import { RxCross1 } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Wishlist = () => {
-  const { wishlist, setWishlist, cart, setCart } = useContext(CartContext);
+  const { wishlist, setWishlist, setCart } = useContext(CartContext);
+  const [wishlistData, setWishlistData] = useState(() => {
+    const localWishlistData = localStorage.getItem("Wishlist");
+    const initialWishlist = localWishlistData ? JSON.parse(localWishlistData) : [];
+    return initialWishlist;
+  });
 
   const handleDeleteFromWishlist = (item) => {
-    setWishlist(wishlist.filter((wishlistItem) => wishlistItem.id !== item.id));
+    const updatedWishlist = wishlist.filter((wishlistItem) => wishlistItem.id !== item.id)
+    setWishlist(updatedWishlist);
+    setWishlistData(updatedWishlist);
+    localStorage.setItem("Wishlist", JSON.stringify(updatedWishlist));
+    toast.success("Product Remove From Wishlist Successfully!", { autoClose: 1000 });
   };
 
   const handleAddToCartFromWishlist = (item) => {
@@ -16,8 +26,18 @@ const Wishlist = () => {
       ...cart,
       { ...item, quantity: item.quantity ? item.quantity + 1 : 1 },
     ]);
-    setWishlist(wishlist.filter((wishlistItem) => wishlistItem.id !== item.id));
+    const updatedWishlist = wishlist.filter((wishlistItem) => wishlistItem.id !== item.id)
+    setWishlist(updatedWishlist);
+    setWishlistData(updatedWishlist);
+    localStorage.setItem("Wishlist", JSON.stringify(updatedWishlist));
+    toast.success("Product Added To Cart Successfully!", { autoClose: 1000 });
+
   };
+  useEffect(() => {
+    const localWishlistData = localStorage.getItem("Wishlist");
+    const initialWishlist = localWishlistData ? JSON.parse(localWishlistData) : [];
+    setWishlist(initialWishlist);
+  },[]);
 
   return (
     <Container className="py-9">
