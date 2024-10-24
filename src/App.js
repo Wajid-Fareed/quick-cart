@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import About from "./pages/about/page";
+// import About from "./pages/about/page";
 import Home from "./pages/home/page";
 import Wishlist from "./pages/wishlist/page";
 import Cart from "./pages/cart/page";
@@ -12,7 +12,7 @@ function App() {
       <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="about-us" element={<About />} />
+            {/* <Route path="about-us" element={<About />} /> */}
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<CheckoutPage />} />

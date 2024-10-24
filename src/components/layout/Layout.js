@@ -3,6 +3,8 @@ import { Link, Outlet } from "react-router-dom";
 import Container from "./Container";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { ImCancelCircle } from "react-icons/im";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CartContext = createContext(null);
 
@@ -55,9 +57,9 @@ const Layout = () => {
               <li>
                 <Link to="/">Home</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/about-us">About</Link>
-              </li>
+              </li> */}
               <li className="relative">
                 <Link to="/wishlist">Wishlist</Link>
                 {wishlist.length > 0 && (
@@ -123,7 +125,7 @@ const Layout = () => {
           </nav>
         </Container>
       </header>
-
+      <ToastContainer />
       <CartContext.Provider
         value={{
           cart,

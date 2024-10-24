@@ -60,7 +60,7 @@ const CheckoutPage = () => {
   };
   return (
     <Container>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-5 min-h-[85vh] items-center mt-[2px]">
         <div>
           <h2 className="text-2xl font-medium">Checkout</h2>
           <p>Please enter your details to complete the checkout process.</p>
@@ -71,7 +71,7 @@ const CheckoutPage = () => {
                   className="block text-lg font-medium"
                   htmlFor="first_name"
                 >
-                  First Name:
+                  First Name: <span className="text-red-500 align-top">*</span>
                 </label>
                 <input
                   type="text"
@@ -90,7 +90,7 @@ const CheckoutPage = () => {
                   className="block text-lg font-medium"
                   htmlFor="last_name"
                 >
-                  Last Name:
+                  Last Name: <span className="text-red-500 align-top">*</span>
                 </label>
                 <input
                   type="text"
@@ -106,7 +106,7 @@ const CheckoutPage = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <label className="block text-lg font-medium" htmlFor="email">
-                  Email:
+                  Email: <span className="text-red-500 align-top">*</span>
                 </label>
                 <input
                   type="email"
@@ -125,7 +125,7 @@ const CheckoutPage = () => {
                   className="block text-lg font-medium"
                   htmlFor="phone_number"
                 >
-                  Phone Number:
+                  Phone Number: <span className="text-red-500 align-top">*</span>
                 </label>
                 <input
                   type="text"
@@ -141,7 +141,7 @@ const CheckoutPage = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <label className="block text-lg font-medium" htmlFor="address">
-                  Address:
+                  Address: <span className="text-red-500 align-top">*</span>
                 </label>
                 <input
                   type="text"
@@ -157,7 +157,7 @@ const CheckoutPage = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <label className="block text-lg font-medium" htmlFor="country">
-                  country:
+                  country: <span className="text-red-500 align-top">*</span>
                 </label>
                 <Select
                   id="country"
@@ -188,7 +188,7 @@ const CheckoutPage = () => {
             </div>
           </form>
         </div>
-        <div className="bg-[#EEEEEE] rounded">
+        <div className="bg-[#EEEEEE] rounded h-fit">
           <div className="px-5 py-2">
             <h2 className="text-xl font-medium">Review Order</h2>
             <p>Please review your order details before confirming.</p>

@@ -4,6 +4,9 @@ import Container from "../../components/layout/Container";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { couponData } from "../../data";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Cart = () => {
   const {
@@ -27,8 +30,10 @@ const Cart = () => {
             : cartItem
         )
       );
+      toast.success("Product Quantity Remove Successfully!", { autoClose: 1000 });
     } else {
       setCart(cart.filter((cartItem) => cartItem.id !== id));
+      toast.success("Product Remove From Cart Successfully!", { autoClose: 1000 });
     }
   };
   const handleAddToCart = (item) => {
@@ -41,12 +46,15 @@ const Cart = () => {
             : cartItem
         )
       );
+      toast.success("Product Quantity Added Successfully!", { autoClose: 1000 });
     } else {
       setCart([...cart, { ...item, quantity: 1 }]);
+      toast.success("Product Added To Cart Successfully!", { autoClose: 1000 });
     }
   };
   const handleDeleteFromCart = (id) => {
     setCart(cart.filter((cartItem) => cartItem.id !== id));
+    toast.success("Product Remove From Cart Successfully!", { autoClose: 1000 });
   };
 
   useEffect(() => {
@@ -61,6 +69,7 @@ const Cart = () => {
     if (coupon) {
       const discountAmount = totalCartPrice * (coupon.discountPercent / 100);
       setSubTotalPrice(totalCartPrice - discountAmount + totalTex);
+      toast.success("Coupon Applied Successfully!", { autoClose: 1000 });
     }
   };
   return (
@@ -145,9 +154,8 @@ const Cart = () => {
                   <button
                     type="submit"
                     disabled={couponDiscount > 0}
-                    className={`bg-black text-white font-bold focus:outline-none h-14 px-8 ${
-                      couponDiscount > 0 ? "bg-zinc-700" : ""
-                    }`}
+                    className={`bg-black text-white font-bold focus:outline-none h-14 px-8 ${couponDiscount > 0 ? "bg-zinc-700" : ""
+                      }`}
                   >
                     Apply
                   </button>

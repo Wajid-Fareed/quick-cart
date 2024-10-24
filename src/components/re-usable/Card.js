@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { FaHeart } from "react-icons/fa";
 import { CartContext } from "../layout/Layout";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Card = ({ item }) => {
-  const { cart, setCart , wishlist, setWishlist } = useContext(CartContext);
+  const { cart, setCart, wishlist, setWishlist , } = useContext(CartContext);
 
   const handleAddToCart = () => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id);
@@ -16,16 +18,23 @@ const Card = ({ item }) => {
             : cartItem
         )
       );
+      toast.success("Product Quantity Added Successfully!", { autoClose: 1000 });
     } else {
       setCart([...cart, { ...item, quantity: 1 }]);
+      toast.success("Product Added To Cart Successfully!", { autoClose: 1000 });
     }
   };
 
   const hanldeAddToWishlist = () => {
     const existingwisklist = wishlist.find((wishlistItem) => wishlistItem.id === item.id);
     const existingcart = cart.find((wishlistItem) => wishlistItem.id === item.id);
-    if(!existingwisklist && !existingcart ) {
-      setWishlist([...wishlist , item]);
+    if (!existingwisklist && !existingcart) {
+      localStorage.setItem("Wishlist" ,JSON.stringify([...wishlist, item]))
+      setWishlist([...wishlist, item]);
+      toast.success("Product Added To Wishlist Successfully!", { autoClose: 1000 });
+    }
+    else{
+      toast.error("Product Already In Wishlist Successfully!", { autoClose: 1000 });
     }
   }
   return (
