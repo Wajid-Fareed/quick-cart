@@ -1,4 +1,4 @@
-# State management for a client component using useContext in React.j
+# State management for a client component using useContext in React.js
 
 # Getting Started with Create React App
 
